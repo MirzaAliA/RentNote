@@ -1,0 +1,58 @@
+import { sendErrorResponse, sendOkResponse } from "../core/responses.js";
+import TenantSchema from "../models/TenantSchema.model.js";
+
+export const getTenantsVehicle = async (req, res) => {
+    try {
+        const Tenants = await TenantSchema.find();
+        sendOkResponse(res, Tenants, "Success");
+    }
+    catch (err) {
+        sendErrorResponse(res, err, 500)
+    }
+}
+
+export const getTenantVehicle = async (req, res) => {
+    try {
+        const Tenant = await TenantSchema.findById(req.params.id);
+        sendOkResponse(res, Tenant, "Success");
+    }
+    catch (err) {
+        sendErrorResponse(res, err, 500)
+    }
+}
+
+export const saveTenantVehicle = async (req, res) => {
+    try {
+        const Tenant = await TenantSchema.create(req.body);
+        sendOkResponse(res, Tenant, "Success");
+    }
+    catch (err) {
+        sendErrorResponse(res, err, 500)
+    }
+}
+
+export const updateTenantVehicle = async (req, res) => {
+    try {
+        const Tenant = await TenantSchema.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {
+                new: true
+            }
+        );
+        sendOkResponse(res, Tenant, "Success");
+    }
+    catch (err) {
+        sendErrorResponse(res, err, 500)
+    }
+}
+
+export const deleteTenantVehicle = async (req, res) => {
+    try {
+        const Tenant = await TenantSchema.findByIdAndDelete(req.params.id);
+        sendOkResponse(res, Tenant, "Success");
+    }
+    catch (err) {
+        sendErrorResponse(res, err, 500);
+    }
+}

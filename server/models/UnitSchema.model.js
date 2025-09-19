@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const AccessoriesSchema = new Schema({
+const UnitSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -11,11 +11,13 @@ const AccessoriesSchema = new Schema({
         type: String,
         required: true
     },
-    amount: {
-        type: number,
+    plateNumber: {
+        type: String,
+        required: true
     },
-    accessoriesPrice: {
+    year: {
         type: Number,
+        required: true
     },
     price: {
         perHour: {
@@ -31,10 +33,15 @@ const AccessoriesSchema = new Schema({
             type: Number,
         }
     },
+    vehicleStatus: {
+        type: String,
+        enum: ["Ready", "Pending", "Maintenance"],
+        default: "Pending"
+    }
 },{
     timestamps: true
 })
 
-const Accessories = mongoose.model('Accessories', AccessoriesSchema);
+const Unit = mongoose.model('Unit', UnitSchema);
 
-module.exports = Accessories;
+export default Unit;
