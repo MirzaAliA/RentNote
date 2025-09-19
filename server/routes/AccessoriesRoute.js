@@ -13,6 +13,6 @@ routerAccessories.get('/', getAccessoriessVehicle);
 routerAccessories.post('/', saveAccessoriesVehicle);
 routerAccessories.get('/:id', getAccessoriesVehicle);
 routerAccessories.put('/:id', updateAccessoriesVehicle);
-routerUnits.delete('/:id', deleteAccessoriesVehicle);
+routerAccessories.delete('/:id', deleteAccessoriesVehicle);
 
 export default routerAccessories;

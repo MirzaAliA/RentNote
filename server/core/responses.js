@@ -1,4 +1,4 @@
-export function sendOkResponse (res, payload, message = "Success") {
+export function sendOkResponse (res, payload = {}, message = "Success") {
     return res.status(200).json({
         success: true,
         message,

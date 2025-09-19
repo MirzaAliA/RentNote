@@ -13,6 +13,6 @@ routerUser.get('/', getUsersVehicle);
 routerUser.post('/', saveUserVehicle);
 routerUser.get('/:id', getUserVehicle);
 routerUser.put('/:id', updateUserVehicle);
-routerUnits.delete('/:id', deleteUserVehicle);
+routerUser.delete('/:id', deleteUserVehicle);
 
 export default routerUser;

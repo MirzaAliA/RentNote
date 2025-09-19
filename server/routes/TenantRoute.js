@@ -13,6 +13,6 @@ routerTenant.get('/', getTenantsVehicle);
 routerTenant.post('/', saveTenantVehicle);
 routerTenant.get('/:id', getTenantVehicle);
 routerTenant.put('/:id', updateTenantVehicle);
-routerUnits.delete('/:id', deleteTenantVehicle);
+routerTenant.delete('/:id', deleteTenantVehicle);
 
 export default routerTenant;

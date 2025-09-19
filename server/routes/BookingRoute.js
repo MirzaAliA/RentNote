@@ -13,6 +13,6 @@ routerBooking.get('/', getBookingsVehicle);
 routerBooking.post('/', saveBookingVehicle);
 routerBooking.get('/:id', getBookingVehicle);
 routerBooking.put('/:id', updateBookingVehicle);
-routerUnits.delete('/:id', deleteBookingVehicle);
+routerBooking.delete('/:id', deleteBookingVehicle);
 
 export default routerBooking;

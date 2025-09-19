@@ -6,6 +6,8 @@ import routerAccessories from "./server/routes/AccessoriesRoute.js";
 import routerBooking from "./server/routes/BookingRoute.js";
 import routerTenant from "./server/routes/TenantRoute.js";
 import routerUser from "./server/routes/UserRoute.js";
+import routerAuth from "./server/routes/AuthRoute.js";
+import authMiddleware from "./server/middleware/AuthMiddleware.js";
 
 const app = express()
 const port = 3000
@@ -21,11 +23,12 @@ connectDB();
 
 // Routes
 app.get('/', (req, res) => {res.json('Hello World!')});
-app.use('/api/v1/accessories', routerAccessories);
-app.use('/api/v1/booking', routerBooking);
-app.use('/api/v1/tenant', routerTenant);
-app.use('/api/v1/unit', routerUnits);
-app.use('/api/v1/user', routerUser);
+app.use('/api/v1/accessories', authMiddleware, routerAccessories);
+app.use('/api/v1/booking', authMiddleware, routerBooking);
+app.use('/api/v1/tenant', authMiddleware, routerTenant);
+app.use('/api/v1/unit', authMiddleware, routerUnits);
+app.use('/api/v1/user', authMiddleware, routerUser);
+app.use('/api/v1/auth', routerAuth);
 
 
 // Guard routes
