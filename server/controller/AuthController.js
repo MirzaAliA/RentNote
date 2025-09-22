@@ -9,14 +9,14 @@ export const loginUser = async (req, res) => {
 
         const findUser = await UserSchema.findOne({ email });
 
-        const comparePassword = await bcrypt.compare(password, findUser.password);
-
-        if (!findUser.email === email) {
-            return sendErrorResponse(res, {message: "Email not found"}, 500)
+        if (!findUser) {
+            return sendErrorResponse(res, {message: "Email not found"}, 401)
         }
 
+        const comparePassword = await bcrypt.compare(password, findUser.password);
+
         if (!comparePassword) {
-            return sendErrorResponse(res, {message: "Password don't match"}, 500)
+            return sendErrorResponse(res, {message: "Password don't match"}, 401)
         }
 
         // Generate Token
@@ -39,7 +39,7 @@ export const registerUser = async (req, res) => {
 
         if (findUser) {
             if (email === findUser.email) {
-                return sendErrorResponse(res, { message: "Email has already been taken" }, 500);
+                return sendErrorResponse(res, { message: "Email has already been taken" }, 409);
             }
         }
 

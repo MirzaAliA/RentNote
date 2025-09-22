@@ -4,6 +4,9 @@ import UnitSchema from "../models/UnitSchema.model.js";
 export const getUnitsVehicle = async (req, res) => {
     try {
         const Units = await UnitSchema.find();
+        if (!Units) {
+            sendErrorResponse(res, { message: `Data not found` }, 404)
+        }
         sendOkResponse(res, Units, "Success");
     }
     catch (err) {
@@ -14,6 +17,9 @@ export const getUnitsVehicle = async (req, res) => {
 export const getUnitVehicle = async (req, res) => {
     try {
         const Unit = await UnitSchema.findById(req.params.id);
+        if (!Unit) {
+            sendErrorResponse(res, { message: `User ID: ${req.params.id} not found` }, 404)
+        }
         sendOkResponse(res, Unit, "Success");
     }
     catch (err) {
@@ -50,6 +56,9 @@ export const updateUnitVehicle = async (req, res) => {
 export const deleteUnitVehicle = async (req, res) => {
     try {
         const Unit = await UnitSchema.findByIdAndDelete(req.params.id);
+        if (!Unit) {
+            sendErrorResponse(res, { message: `Data not found` }, 404)
+        }
         sendOkResponse(res, Unit, "Success");
     }
     catch (err) {

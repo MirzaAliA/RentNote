@@ -4,6 +4,9 @@ import AccessoriesSchema from "../models/AccessoriesSchema.model.js";
 export const getAccessoriessVehicle = async (req, res) => {
     try {
         const Accessoriess = await AccessoriesSchema.find();
+        if(!Accessoriess) {
+            sendErrorResponse(res, {message: `Data not found`}, 404)
+        }
         sendOkResponse(res, Accessoriess, "Success");
     }
     catch (err) {
@@ -14,6 +17,9 @@ export const getAccessoriessVehicle = async (req, res) => {
 export const getAccessoriesVehicle = async (req, res) => {
     try {
         const Accessories = await AccessoriesSchema.findById(req.params.id);
+        if(!Accessories) {
+            sendErrorResponse(res, {message: `User ID: ${req.params.id} not found`}, 404)
+        }
         sendOkResponse(res, Accessories, "Success");
     }
     catch (err) {
@@ -50,6 +56,9 @@ export const updateAccessoriesVehicle = async (req, res) => {
 export const deleteAccessoriesVehicle = async (req, res) => {
     try {
         const Accessories = await AccessoriesSchema.findByIdAndDelete(req.params.id);
+        if(!Accessories) {
+            sendErrorResponse(res, {message: `Data not found`}, 404)
+        }
         sendOkResponse(res, Accessories, "Success");
     }
     catch (err) {

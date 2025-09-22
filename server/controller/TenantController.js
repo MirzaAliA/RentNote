@@ -4,6 +4,9 @@ import TenantSchema from "../models/TenantSchema.model.js";
 export const getTenantsVehicle = async (req, res) => {
     try {
         const Tenants = await TenantSchema.find();
+        if (!Tenants) {
+            sendErrorResponse(res, { message: `Data not found` }, 404)
+        }
         sendOkResponse(res, Tenants, "Success");
     }
     catch (err) {
@@ -14,6 +17,9 @@ export const getTenantsVehicle = async (req, res) => {
 export const getTenantVehicle = async (req, res) => {
     try {
         const Tenant = await TenantSchema.findById(req.params.id);
+        if (!Tenant) {
+            sendErrorResponse(res, { message: `User ID: ${req.params.id} not found` }, 404)
+        }
         sendOkResponse(res, Tenant, "Success");
     }
     catch (err) {
@@ -50,6 +56,9 @@ export const updateTenantVehicle = async (req, res) => {
 export const deleteTenantVehicle = async (req, res) => {
     try {
         const Tenant = await TenantSchema.findByIdAndDelete(req.params.id);
+        if (!Tenant) {
+            sendErrorResponse(res, { message: `Data not found` }, 404)
+        }
         sendOkResponse(res, Tenant, "Success");
     }
     catch (err) {

@@ -4,6 +4,9 @@ import UserSchema from "../models/UserSchema.model.js";
 export const getUsersVehicle = async (req, res) => {
     try {
         const Users = await UserSchema.find();
+        if (!Users) {
+            sendErrorResponse(res, { message: `Data not found` }, 404)
+        }
         sendOkResponse(res, Users, "Success");
     }
     catch (err) {
@@ -14,6 +17,9 @@ export const getUsersVehicle = async (req, res) => {
 export const getUserVehicle = async (req, res) => {
     try {
         const User = await UserSchema.findById(req.params.id);
+        if (!User) {
+            sendErrorResponse(res, { message: `User ID: ${req.params.id} not found` }, 404)
+        }
         sendOkResponse(res, User, "Success");
     }
     catch (err) {
@@ -50,6 +56,9 @@ export const updateUserVehicle = async (req, res) => {
 export const deleteUserVehicle = async (req, res) => {
     try {
         const User = await UserSchema.findByIdAndDelete(req.params.id);
+        if (!User) {
+            sendErrorResponse(res, { message: `Data not found` }, 404)
+        }
         sendOkResponse(res, User, "Success");
     }
     catch (err) {
