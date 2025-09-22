@@ -8,6 +8,7 @@ import routerTenant from "./server/routes/TenantRoute.js";
 import routerUser from "./server/routes/UserRoute.js";
 import routerAuth from "./server/routes/AuthRoute.js";
 import authMiddleware from "./server/middleware/AuthMiddleware.js";
+import cors from "cors";
 
 const app = express()
 const port = 3000
@@ -20,9 +21,15 @@ dotenv.config();
 // Connect to MongoDB
 connectDB();
 
+// CORS
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 
 // Routes
-app.get('/', (req, res) => {res.json('Hello World!')});
+app.get('/', (req, res) => { res.json('Hello World!') });
 app.use('/api/v1/accessories', authMiddleware, routerAccessories);
 app.use('/api/v1/booking', authMiddleware, routerBooking);
 app.use('/api/v1/tenant', authMiddleware, routerTenant);
