@@ -1,11 +1,12 @@
 import { sendErrorResponse, sendOkResponse } from "../core/responses.js";
-import AccessoriesSchema from "../models/AccessoriesSchema.model.js";
+import AccessoriesSchema from "../models/AccessoriesSchema.model.js"; 
+import mongoose from "mongoose";
 
 export const getAccessoriessVehicle = async (req, res) => {
     try {
         const Accessoriess = await AccessoriesSchema.find();
-        if(!Accessoriess) {
-            sendErrorResponse(res, {message: `Data not found`}, 404)
+        if (!Accessoriess) {
+            sendErrorResponse(res, { message: `Data not found` }, 404)
         }
         sendOkResponse(res, Accessoriess, "Success");
     }
@@ -16,9 +17,12 @@ export const getAccessoriessVehicle = async (req, res) => {
 
 export const getAccessoriesVehicle = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return sendErrorResponse(res, { message: `Invalid ID format` }, 400)
+        }
         const Accessories = await AccessoriesSchema.findById(req.params.id);
-        if(!Accessories) {
-            sendErrorResponse(res, {message: `User ID: ${req.params.id} not found`}, 404)
+        if (!Accessories) {
+            sendErrorResponse(res, { message: `User ID: ${req.params.id} not found` }, 404)
         }
         sendOkResponse(res, Accessories, "Success");
     }
@@ -55,9 +59,12 @@ export const updateAccessoriesVehicle = async (req, res) => {
 
 export const deleteAccessoriesVehicle = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return sendErrorResponse(res, { message: `Invalid ID format` }, 400)
+        }
         const Accessories = await AccessoriesSchema.findByIdAndDelete(req.params.id);
-        if(!Accessories) {
-            sendErrorResponse(res, {message: `Data not found`}, 404)
+        if (!Accessories) {
+            sendErrorResponse(res, { message: `Data not found` }, 404)
         }
         sendOkResponse(res, Accessories, "Success");
     }

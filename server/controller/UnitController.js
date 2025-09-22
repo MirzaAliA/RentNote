@@ -1,5 +1,6 @@
 import { sendErrorResponse, sendOkResponse } from "../core/responses.js";
 import UnitSchema from "../models/UnitSchema.model.js";
+import mongoose from "mongoose";
 
 export const getUnitsVehicle = async (req, res) => {
     try {
@@ -16,6 +17,9 @@ export const getUnitsVehicle = async (req, res) => {
 
 export const getUnitVehicle = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return sendErrorResponse(res, { message: `Invalid ID format` }, 400)
+        }
         const Unit = await UnitSchema.findById(req.params.id);
         if (!Unit) {
             sendErrorResponse(res, { message: `User ID: ${req.params.id} not found` }, 404)
@@ -57,7 +61,7 @@ export const deleteUnitVehicle = async (req, res) => {
     try {
         const Unit = await UnitSchema.findByIdAndDelete(req.params.id);
         if (!Unit) {
-            sendErrorResponse(res, { message: `Data not found` }, 404)
+            return sendErrorResponse(res, { message: `Data not found` }, 404)
         }
         sendOkResponse(res, Unit, "Success");
     }

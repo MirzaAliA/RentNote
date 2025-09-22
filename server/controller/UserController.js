@@ -1,5 +1,6 @@
 import { sendErrorResponse, sendOkResponse } from "../core/responses.js";
 import UserSchema from "../models/UserSchema.model.js";
+import mongoose from "mongoose";
 
 export const getUsersVehicle = async (req, res) => {
     try {
@@ -16,6 +17,9 @@ export const getUsersVehicle = async (req, res) => {
 
 export const getUserVehicle = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return sendErrorResponse(res, { message: `Invalid ID format` }, 400)
+        }
         const User = await UserSchema.findById(req.params.id);
         if (!User) {
             sendErrorResponse(res, { message: `User ID: ${req.params.id} not found` }, 404)
@@ -55,6 +59,9 @@ export const updateUserVehicle = async (req, res) => {
 
 export const deleteUserVehicle = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return sendErrorResponse(res, { message: `Invalid ID format` }, 400)
+        }
         const User = await UserSchema.findByIdAndDelete(req.params.id);
         if (!User) {
             sendErrorResponse(res, { message: `Data not found` }, 404)
