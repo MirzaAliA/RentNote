@@ -7,23 +7,16 @@ export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Hash Password
-        // const salt = await bcrypt.genSalt(10);
-        // const hashedPassword = await bcrypt.hash(password, salt);
-
         const findUser = await UserSchema.findOne({ email });
 
-        // console.log(findUser);
-
-        // Compare Password
         const comparePassword = await bcrypt.compare(password, findUser.password);
 
         if (!findUser.email === email) {
-            return sendErrorResponse(res, "Email not found", 500)
+            return sendErrorResponse(res, {message: "Email not found"}, 500)
         }
 
         if (!comparePassword) {
-            return sendErrorResponse(res, "Password don't match", 500)
+            return sendErrorResponse(res, {message: "Password don't match"}, 500)
         }
 
         // Generate Token
@@ -43,10 +36,6 @@ export const registerUser = async (req, res) => {
     try {
         const { email, name, password } = req.body;
         const findUser = await UserSchema.findOne({ email });
-
-        // if(!findUser) {
-        //     return sendErrorResponse(res, "")
-        // }
 
         if (findUser) {
             if (email === findUser.email) {
