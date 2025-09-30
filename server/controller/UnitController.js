@@ -33,7 +33,14 @@ export const getUnitVehicle = async (req, res) => {
 
 export const saveUnitVehicle = async (req, res) => {
     try {
-        const Unit = await UnitSchema.create(req.body);
+        const { id } = req.user;
+        const userId = new mongoose.Types.ObjectId(id);
+        const Unit = await UnitSchema.create({
+            ...req.body,
+            createdBy: userId,
+            updatedBy: userId
+        });
+
         sendOkResponse(res, Unit, "Success");
     }
     catch (err) {
@@ -43,9 +50,28 @@ export const saveUnitVehicle = async (req, res) => {
 
 export const updateUnitVehicle = async (req, res) => {
     try {
+        const { id } = req.user;
+        const userId = new mongoose.Types.ObjectId(id);
+        const {
+            price,
+            name,
+            brand,
+            plateNumber,
+            year,
+            vehicleStatus
+        } = req.body
+        const data = {
+            price,
+            name,
+            brand,
+            plateNumber,
+            year,
+            vehicleStatus,
+            updatedBy: userId
+        }
         const Unit = await UnitSchema.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            data,
             {
                 new: true
             }

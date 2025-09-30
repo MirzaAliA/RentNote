@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
+const Types = mongoose.Types;
 
 const BookingSchema = new Schema({
     name: {
@@ -43,8 +44,17 @@ const BookingSchema = new Schema({
         unpaidFees: {
             type: Number
         }
+    },
+    createdBy: {
+        type: Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    updatedBy: {
+        type: Types.ObjectId,
+        ref: "User"
     }
-},{
+}, {
     timestamps: true
 })
 

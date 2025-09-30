@@ -33,7 +33,13 @@ export const getBookingVehicle = async (req, res) => {
 
 export const saveBookingVehicle = async (req, res) => {
     try {
-        const Booking = await BookingSchema.create(req.body);
+        const { id } = req.user;
+        const userId = new mongoose.Types.ObjectId(id);
+        const Booking = await BookingSchema.create({
+            ...req.body,
+            createdBy: userId,
+            updatedBy: userId
+        });
         sendOkResponse(res, Booking, "Success");
     }
     catch (err) {
@@ -43,9 +49,14 @@ export const saveBookingVehicle = async (req, res) => {
 
 export const updateBookingVehicle = async (req, res) => {
     try {
+        const { id } = req.user;
+        const userId = new mongoose.Types.ObjectId(id);
         const Booking = await BookingSchema.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            {
+                ...req.body,
+                updatedBy: userId
+            },
             {
                 new: true
             }

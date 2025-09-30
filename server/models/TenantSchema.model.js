@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
+const Types = mongoose.Types;
 
 const TenantSchema = new Schema({
     name: {
@@ -85,6 +86,15 @@ const TenantSchema = new Schema({
         unpaidFees: {
             type: Number
         }
+    },
+    createdBy: {
+        type: Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    updatedBy: {
+        type: Types.ObjectId,
+        ref: "User"
     }
 }, {
     timestamps: true

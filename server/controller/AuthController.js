@@ -25,7 +25,7 @@ export const loginUser = async (req, res) => {
             email: findUser.email,
         }, process.env.SECRET, { expiresIn: 60 * 60 * 24 });
 
-        sendOkResponse(res, token, "Success Login");
+        sendOkResponse(res, {token, name: findUser.name}, "Success Login");
     }
     catch (err) {
         sendErrorResponse(res, err, 500);

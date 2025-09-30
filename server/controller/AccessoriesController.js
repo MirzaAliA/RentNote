@@ -1,5 +1,5 @@
 import { sendErrorResponse, sendOkResponse } from "../core/responses.js";
-import AccessoriesSchema from "../models/AccessoriesSchema.model.js"; 
+import AccessoriesSchema from "../models/AccessoriesSchema.model.js";
 import mongoose from "mongoose";
 
 export const getAccessoriessVehicle = async (req, res) => {
@@ -33,7 +33,13 @@ export const getAccessoriesVehicle = async (req, res) => {
 
 export const saveAccessoriesVehicle = async (req, res) => {
     try {
-        const Accessories = await AccessoriesSchema.create(req.body);
+        const { id } = req.user;
+        const userId = new mongoose.Types.ObjectId(id);
+        const Accessories = await AccessoriesSchema.create({
+            ...req.body,
+            createdBy: userId,
+            updatedBy: userId
+        });
         sendOkResponse(res, Accessories, "Success");
     }
     catch (err) {
@@ -43,9 +49,14 @@ export const saveAccessoriesVehicle = async (req, res) => {
 
 export const updateAccessoriesVehicle = async (req, res) => {
     try {
+        const { id } = req.user;
+        const userId = new mongoose.Types.ObjectId(id);
         const Accessories = await AccessoriesSchema.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            {
+                ...req.body,
+                updatedBy: userId
+            },
             {
                 new: true
             }

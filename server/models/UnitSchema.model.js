@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
+const Types = mongoose.Types;
 
 const UnitSchema = new Schema({
     name: {
@@ -37,6 +38,15 @@ const UnitSchema = new Schema({
         type: String,
         enum: ["Ready", "Pending", "Maintenance"],
         default: "Pending"
+    },
+    createdBy: {
+        type: Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    updatedBy: {
+        type: Types.ObjectId,
+        ref: "User"
     }
 },{
     timestamps: true

@@ -33,7 +33,13 @@ export const getTenantVehicle = async (req, res) => {
 
 export const saveTenantVehicle = async (req, res) => {
     try {
-        const Tenant = await TenantSchema.create(req.body);
+        const { id } = req.user;
+        const userId = new mongoose.Types.ObjectId(id);
+        const Tenant = await TenantSchema.create({
+            ...req.body,
+            createdBy: userId,
+            updatedBy: userId
+        });
         sendOkResponse(res, Tenant, "Success");
     }
     catch (err) {
@@ -43,9 +49,14 @@ export const saveTenantVehicle = async (req, res) => {
 
 export const updateTenantVehicle = async (req, res) => {
     try {
+        const { id } = req.user;
+        const userId = new mongoose.Types.ObjectId(id);
         const Tenant = await TenantSchema.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            {
+                ...req.body,
+                updatedBy: userId
+            },
             {
                 new: true
             }
