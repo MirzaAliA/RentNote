@@ -85,6 +85,9 @@ const TenantSchema = new Schema({
         },
         unpaidFees: {
             type: Number
+        },
+        totalPriceAmount: {
+            type: Number
         }
     },
     createdBy: {
