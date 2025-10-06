@@ -47,7 +47,7 @@ export const saveTenantVehicle = async (req, res) => {
         const oneHour = 1000 * 60 * 60;
         const oneDay = 1000 * 60 * 60 * 24;
         const oneWeek = 1000 * 60 * 60 * 24 * 7;
-        const oneMonth = 1000 * 60 * 60 * 24 * 7 * 30;
+        const oneMonth = 1000 * 60 * 60 * 24 * 30;
         const perHour = vehicle.price.perHour;
         const perDay = vehicle.price.perDay;
         const perWeek = vehicle.price.perWeek;
@@ -61,7 +61,7 @@ export const saveTenantVehicle = async (req, res) => {
         } else if (rentalPeriod > oneHour && rentalPeriod < oneDay) {
             const hours = Math.floor(rentalPeriod / oneHour);
             totalPriceAmount = hours * perHour;
-        } else if (rentalPeriod > oneDay && rentalPeriod < oneWeek) {
+        } else if (rentalPeriod >= oneDay && rentalPeriod < oneWeek) {
             if (rentalPeriod % oneDay === 0) {
                 const days = rentalPeriod / oneDay;
                 totalPriceAmount = days * perDay;
@@ -75,15 +75,20 @@ export const saveTenantVehicle = async (req, res) => {
                     totalPriceAmount = (days * perDay) + (hours * perHour);
                 }
             }
-        } else if (rentalPeriod > oneWeek && rentalPeriod < oneMonth) {
+        } else if (rentalPeriod >= oneWeek && rentalPeriod < oneMonth) {
             if (rentalPeriod % oneWeek === 0) {
                 const weeks = rentalPeriod / oneWeek;
                 totalPriceAmount = weeks * perWeek;
             } else {
                 const weeks = Math.floor(rentalPeriod / oneWeek);
-                const days = Math.floor((rentalPeriod % oneWeek) / oneDay);
                 const hours = Math.floor((rentalPeriod % oneWeek % oneDay) / oneHour);
-                totalPriceAmount = (weeks * perWeek) + (days * perDay) + (hours * perHour);
+                if (hours > 5) {
+                    const days = Math.floor((rentalPeriod % oneWeek) / oneDay) + 1;
+                    totalPriceAmount = (weeks * perWeek) + (days * perDay);
+                } else {
+                    const days = Math.floor((rentalPeriod % oneWeek) / oneDay);
+                    totalPriceAmount = (weeks * perWeek) + (days * perDay) + (hours * perHour);
+                }
             }
         } else if (rentalPeriod >= oneMonth && rentalPeriod <= (3 * oneMonth)) {
             if (rentalPeriod % oneMonth === 0) {
@@ -92,9 +97,14 @@ export const saveTenantVehicle = async (req, res) => {
             } else {
                 const months = Math.floor(rentalPeriod / oneMonth);
                 const weeks = Math.floor((rentalPeriod % oneMonth) / oneWeek);
-                const days = Math.floor((rentalPeriod % oneMonth % oneWeek % oneDay) / oneDay);
-                const hours = Math.floor((rentalPeriod % oneMonth % oneWeek % oneDay % oneHour) / oneHour);
-                totalPriceAmount = (months * perMonth) + (weeks * perWeek) + (days * perDay) + (hours * perHour);
+                const hours = Math.floor((rentalPeriod % oneMonth % oneWeek % oneDay) / oneHour);
+                if (hours > 5) {
+                    const days = Math.floor((rentalPeriod % oneMonth % oneWeek) / oneDay) + 1;
+                    totalPriceAmount = (months * perMonth) + (weeks * perWeek) + (days * perDay);
+                } else {
+                    const days = Math.floor((rentalPeriod % oneMonth % oneWeek) / oneDay);
+                    totalPriceAmount = (months * perMonth) + (weeks * perWeek) + (days * perDay) + (hours * perHour);
+                }
             }
         } else {
             return sendErrorResponse(res, { message: "Date input Error" }, 400);
