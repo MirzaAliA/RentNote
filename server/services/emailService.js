@@ -41,7 +41,7 @@ export const sendEmail = async (req, res) => {
             })
         )
 
-        sendOkResponse(res, tenantDatas.email, "Success");
+        sendOkResponse(res, tenantDatas, "Success");
     }
     catch (err) {
         sendErrorResponse(res, { message: "Error while sending automatic notification through email" }, 500)
