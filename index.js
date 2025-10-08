@@ -36,7 +36,7 @@ app.use('/api/v1/booking', authMiddleware, routerBooking);
 app.use('/api/v1/tenant', authMiddleware, routerTenant);
 app.use('/api/v1/unit', authMiddleware, routerUnits);
 app.use('/api/v1/user', authMiddleware, routerUser);
-app.use('/api/v1/notification', authMiddleware, routerNotification);
+app.use('/api/v1/notification', routerNotification);
 app.use('/api/v1/auth', routerAuth);
 
 
