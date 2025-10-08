@@ -6,7 +6,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // true = SSL
     auth: {
         user: process.env.GOOGLE_EMAIL,
         pass: process.env.GOOGLE_APP_PASSWORD
@@ -30,7 +32,7 @@ export const sendEmail = async (req, res) => {
                         timeZone: "Asia/Jakarta",
                         weekday: "long",
                         day: "numeric",
-                        month: "long", 
+                        month: "long",
                         year: "numeric",
                         hour: "2-digit",
                         minute: "2-digit"
