@@ -13,9 +13,6 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-await transporter.verify();
-
-
 export const sendEmail = async (req, res) => {
     try {
         const date = new Date();
