@@ -9,6 +9,7 @@ import routerUser from "./server/routes/UserRoute.js";
 import routerAuth from "./server/routes/AuthRoute.js";
 import authMiddleware from "./server/middleware/AuthMiddleware.js";
 import cors from "cors";
+import routerNotification from "./server/routes/NotificationRoute.js";
 
 const app = express()
 const port = 3000
@@ -35,6 +36,7 @@ app.use('/api/v1/booking', authMiddleware, routerBooking);
 app.use('/api/v1/tenant', authMiddleware, routerTenant);
 app.use('/api/v1/unit', authMiddleware, routerUnits);
 app.use('/api/v1/user', authMiddleware, routerUser);
+app.use('/api/v1/notification', authMiddleware, routerNotification);
 app.use('/api/v1/auth', routerAuth);
 
 

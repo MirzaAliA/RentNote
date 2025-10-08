@@ -11,6 +11,9 @@ const TenantSchema = new Schema({
     age: {
         type: Number
     },
+    email: {
+        type: String,
+    },
     phoneNumber: {
         type: Number,
         required: true
