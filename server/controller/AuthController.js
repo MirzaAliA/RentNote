@@ -7,16 +7,24 @@ export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        if (!email) {
+            return sendErrorResponse(res, { message: "Please input an Email" }, 401)
+        }
+
+        if (!password) {
+            return sendErrorResponse(res, { message: "Please input a Password" }, 401)
+        }
+
         const findUser = await UserSchema.findOne({ email });
 
         if (!findUser) {
-            return sendErrorResponse(res, {message: "Email not found"}, 401)
+            return sendErrorResponse(res, { message: "Email not found" }, 401)
         }
 
         const comparePassword = await bcrypt.compare(password, findUser.password);
 
         if (!comparePassword) {
-            return sendErrorResponse(res, {message: "Password don't match"}, 401)
+            return sendErrorResponse(res, { message: "Password don't match" }, 401)
         }
 
         // Generate Token
@@ -25,7 +33,7 @@ export const loginUser = async (req, res) => {
             email: findUser.email,
         }, process.env.SECRET, { expiresIn: 60 * 60 * 24 });
 
-        sendOkResponse(res, {token, name: findUser.name}, "Success Login");
+        sendOkResponse(res, { token, name: findUser.name }, "Success Login");
     }
     catch (err) {
         sendErrorResponse(res, err, 500);
@@ -35,6 +43,18 @@ export const loginUser = async (req, res) => {
 export const registerUser = async (req, res) => {
     try {
         const { email, name, password } = req.body;
+
+        if (!email) {
+            return sendErrorResponse(res, { message: "Please input an Email" }, 401)
+        }
+
+        if (!password) {
+            return sendErrorResponse(res, { message: "Please input a Password" }, 401)
+        }
+
+        if (!name) {
+            return sendErrorResponse(res, { message: "Please input a Name" }, 401)
+        }
         const findUser = await UserSchema.findOne({ email });
 
         if (findUser) {
