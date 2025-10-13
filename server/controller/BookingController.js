@@ -34,11 +34,15 @@ export const getBookingVehicle = async (req, res) => {
 export const saveBookingVehicle = async (req, res) => {
     try {
         const { id } = req.user;
+        const { name, phoneNumber, vehicleInformation, payment } = req.body;
         const userId = new mongoose.Types.ObjectId(id);
         const Booking = await BookingSchema.create({
-            ...req.body,
+            name,
+            phoneNumber,
+            vehicleInformation,
+            payment,
             createdBy: userId,
-            updatedBy: userId
+            updatedBy: userId,
         });
         sendOkResponse(res, Booking, "Success");
     }
@@ -50,11 +54,15 @@ export const saveBookingVehicle = async (req, res) => {
 export const updateBookingVehicle = async (req, res) => {
     try {
         const { id } = req.user;
+        const { name, phoneNumber, vehicleInformation, payment } = req.body;
         const userId = new mongoose.Types.ObjectId(id);
         const Booking = await BookingSchema.findByIdAndUpdate(
             req.params.id,
             {
-                ...req.body,
+                name,
+                phoneNumber,
+                vehicleInformation,
+                payment,
                 updatedBy: userId
             },
             {

@@ -108,17 +108,26 @@ export const getTenantVehicle = async (req, res) => {
 
 export const saveTenantVehicle = async (req, res) => {
     try {
-        const { vehicleInformation } = req.body;
+        const { name, age, email, phoneNumber, address, background, parentInformation, collateral, vehicleInformation, payment } = req.body;
         const { id } = req.user;
         const vehicleId = new mongoose.Types.ObjectId(vehicleInformation.vehicle)
         const totalPriceAmount = await paymentCalculation(vehicleInformation);
         const userId = new mongoose.Types.ObjectId(id);
         const Tenant = await TenantSchema.create({
-            ...req.body,
+            name,
+            age,
+            email,
+            phoneNumber,
+            address,
+            background,
+            parentInformation,
+            collateral,
             vehicleInformation: {
+                ...vehicleInformation,
                 vehicle: vehicleId
             },
             payment: {
+                ...payment,
                 totalPriceAmount: totalPriceAmount,
             },
             createdBy: userId,
@@ -134,14 +143,23 @@ export const saveTenantVehicle = async (req, res) => {
 export const updateTenantVehicle = async (req, res) => {
     try {
         const { id } = req.user;
-        const { vehicleInformation } = req.body;
+        const { name, age, email, phoneNumber, address, background, parentInformation, collateral, vehicleInformation, payment } = req.body;
         const totalPriceAmount = await paymentCalculation(vehicleInformation);
         const userId = new mongoose.Types.ObjectId(id);
         const Tenant = await TenantSchema.findByIdAndUpdate(
             req.params.id,
             {
-                ...req.body,
+                name,
+                age,
+                email,
+                phoneNumber,
+                address,
+                background,
+                parentInformation,
+                collateral,
+                vehicleInformation,
                 payment: {
+                    ...payment,
                     totalPriceAmount: totalPriceAmount,
                 },
                 updatedBy: userId

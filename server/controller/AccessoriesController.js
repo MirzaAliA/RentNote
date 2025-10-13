@@ -34,9 +34,14 @@ export const getAccessoriesVehicle = async (req, res) => {
 export const saveAccessoriesVehicle = async (req, res) => {
     try {
         const { id } = req.user;
+        const { name, brand, amount, accessoriesPrice, price } = req.body;
         const userId = new mongoose.Types.ObjectId(id);
         const Accessories = await AccessoriesSchema.create({
-            ...req.body,
+            name,
+            brand,
+            amount,
+            accessoriesPrice,
+            price,
             createdBy: userId,
             updatedBy: userId
         });
@@ -50,11 +55,16 @@ export const saveAccessoriesVehicle = async (req, res) => {
 export const updateAccessoriesVehicle = async (req, res) => {
     try {
         const { id } = req.user;
+        const { name, brand, amount, accessoriesPrice, price } = req.body;
         const userId = new mongoose.Types.ObjectId(id);
         const Accessories = await AccessoriesSchema.findByIdAndUpdate(
             req.params.id,
             {
-                ...req.body,
+                name,
+                brand,
+                amount,
+                accessoriesPrice,
+                price,
                 updatedBy: userId
             },
             {

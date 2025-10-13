@@ -34,9 +34,15 @@ export const getUnitVehicle = async (req, res) => {
 export const saveUnitVehicle = async (req, res) => {
     try {
         const { id } = req.user;
+        const { name, brand, plateNumber, year, price, vehicleStatus } = req.body;
         const userId = new mongoose.Types.ObjectId(id);
         const Unit = await UnitSchema.create({
-            ...req.body,
+            name,
+            brand,
+            plateNumber,
+            year,
+            price,
+            vehicleStatus,
             createdBy: userId,
             updatedBy: userId
         });
@@ -60,18 +66,17 @@ export const updateUnitVehicle = async (req, res) => {
             year,
             vehicleStatus
         } = req.body
-        const data = {
-            price,
-            name,
-            brand,
-            plateNumber,
-            year,
-            vehicleStatus,
-            updatedBy: userId
-        }
         const Unit = await UnitSchema.findByIdAndUpdate(
             req.params.id,
-            data,
+            {
+                name,
+                brand,
+                plateNumber,
+                year,
+                price,
+                vehicleStatus,
+                updatedBy: userId,
+            },
             {
                 new: true
             }
