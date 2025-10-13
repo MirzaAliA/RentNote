@@ -35,6 +35,25 @@ export const saveAccessoriesVehicle = async (req, res) => {
     try {
         const { id } = req.user;
         const { name, brand, amount, accessoriesPrice, price } = req.body;
+        if (!name) {
+            return sendErrorResponse(res, { message: "Please input a Name" }, 401)
+        }
+
+        if (!brand) {
+            return sendErrorResponse(res, { message: "Please input a Brand" }, 401)
+        }
+
+        if (!amount) {
+            return sendErrorResponse(res, { message: "Please input an Amount" }, 401)
+        }
+
+        if (!accessoriesPrice) {
+            return sendErrorResponse(res, { message: "Please input Accessories Price" }, 401)
+        }
+
+        if (!price) {
+            return sendErrorResponse(res, { message: "Please input Price" }, 401)
+        }
         const userId = new mongoose.Types.ObjectId(id);
         const Accessories = await AccessoriesSchema.create({
             name,
@@ -56,6 +75,25 @@ export const updateAccessoriesVehicle = async (req, res) => {
     try {
         const { id } = req.user;
         const { name, brand, amount, accessoriesPrice, price } = req.body;
+        if (!name) {
+            return sendErrorResponse(res, { message: "Please input a Name" }, 401)
+        }
+
+        if (!brand) {
+            return sendErrorResponse(res, { message: "Please input a Brand" }, 401)
+        }
+
+        if (!amount) {
+            return sendErrorResponse(res, { message: "Please input an Amount" }, 401)
+        }
+
+        if (!accessoriesPrice) {
+            return sendErrorResponse(res, { message: "Please input Accessories Price" }, 401)
+        }
+
+        if (!price) {
+            return sendErrorResponse(res, { message: "Please input a Price" }, 401)
+        }
         const userId = new mongoose.Types.ObjectId(id);
         const Accessories = await AccessoriesSchema.findByIdAndUpdate(
             req.params.id,

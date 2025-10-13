@@ -109,6 +109,46 @@ export const getTenantVehicle = async (req, res) => {
 export const saveTenantVehicle = async (req, res) => {
     try {
         const { name, age, email, phoneNumber, address, background, parentInformation, collateral, vehicleInformation, payment } = req.body;
+        if (!name) {
+            return sendErrorResponse(res, { message: "Please input a Name" }, 401)
+        }
+
+        if (!age) {
+            return sendErrorResponse(res, { message: "Please input a Age" }, 401)
+        }
+
+        if (!email) {
+            return sendErrorResponse(res, { message: "Please input an Email" }, 401)
+        }
+
+        if (!phoneNumber) {
+            return sendErrorResponse(res, { message: "Please input a Phone Number" }, 401)
+        }
+
+        if (!address) {
+            return sendErrorResponse(res, { message: "Please input Address" }, 401)
+        }
+
+        if (!background) {
+            return sendErrorResponse(res, { message: "Please input Background" }, 401)
+        }
+
+        if (!parentInformation) {
+            return sendErrorResponse(res, { message: "Please input Parent Information" }, 401)
+        }
+
+        if (!collateral) {
+            return sendErrorResponse(res, { message: "Please input Collateral" }, 401)
+        }
+
+        if (!vehicleInformation) {
+            return sendErrorResponse(res, { message: "Please input Vehicle Information" }, 401)
+        }
+
+        if (!payment) {
+            return sendErrorResponse(res, { message: "Please input Payment" }, 401)
+        }
+
         const { id } = req.user;
         const vehicleId = new mongoose.Types.ObjectId(vehicleInformation.vehicle)
         const totalPriceAmount = await paymentCalculation(vehicleInformation);
@@ -144,6 +184,45 @@ export const updateTenantVehicle = async (req, res) => {
     try {
         const { id } = req.user;
         const { name, age, email, phoneNumber, address, background, parentInformation, collateral, vehicleInformation, payment } = req.body;
+        if (!name) {
+            return sendErrorResponse(res, { message: "Please input a Name" }, 401)
+        }
+
+        if (!age) {
+            return sendErrorResponse(res, { message: "Please input a Age" }, 401)
+        }
+
+        if (!email) {
+            return sendErrorResponse(res, { message: "Please input an Email" }, 401)
+        }
+
+        if (!phoneNumber) {
+            return sendErrorResponse(res, { message: "Please input a Phone Number" }, 401)
+        }
+
+        if (!address) {
+            return sendErrorResponse(res, { message: "Please input Address" }, 401)
+        }
+
+        if (!background) {
+            return sendErrorResponse(res, { message: "Please input Background" }, 401)
+        }
+
+        if (!parentInformation) {
+            return sendErrorResponse(res, { message: "Please input Parent Information" }, 401)
+        }
+
+        if (!collateral) {
+            return sendErrorResponse(res, { message: "Please input Collateral" }, 401)
+        }
+
+        if (!vehicleInformation) {
+            return sendErrorResponse(res, { message: "Please input Vehicle Information" }, 401)
+        }
+
+        if (!payment) {
+            return sendErrorResponse(res, { message: "Please input Payment" }, 401)
+        }
         const totalPriceAmount = await paymentCalculation(vehicleInformation);
         const userId = new mongoose.Types.ObjectId(id);
         const Tenant = await TenantSchema.findByIdAndUpdate(

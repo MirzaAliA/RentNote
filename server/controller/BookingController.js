@@ -35,6 +35,21 @@ export const saveBookingVehicle = async (req, res) => {
     try {
         const { id } = req.user;
         const { name, phoneNumber, vehicleInformation, payment } = req.body;
+        if (!name) {
+            return sendErrorResponse(res, { message: "Please input a Name" }, 401)
+        }
+
+        if (!phoneNumber) {
+            return sendErrorResponse(res, { message: "Please input a Phone Number" }, 401)
+        }
+
+        if (!vehicleInformation) {
+            return sendErrorResponse(res, { message: "Please input Vehicle Information" }, 401)
+        }
+
+        if (!payment) {
+            return sendErrorResponse(res, { message: "Please input Payment" }, 401)
+        }
         const userId = new mongoose.Types.ObjectId(id);
         const Booking = await BookingSchema.create({
             name,
@@ -55,6 +70,22 @@ export const updateBookingVehicle = async (req, res) => {
     try {
         const { id } = req.user;
         const { name, phoneNumber, vehicleInformation, payment } = req.body;
+        if (!name) {
+            return sendErrorResponse(res, { message: "Please input a Name" }, 401)
+        }
+
+        if (!phoneNumber) {
+            return sendErrorResponse(res, { message: "Please input a Phone Number" }, 401)
+        }
+
+        if (!vehicleInformation) {
+            return sendErrorResponse(res, { message: "Please input Vehicle Information" }, 401)
+        }
+
+        if (!payment) {
+            return sendErrorResponse(res, { message: "Please input Payment" }, 401)
+        }
+
         const userId = new mongoose.Types.ObjectId(id);
         const Booking = await BookingSchema.findByIdAndUpdate(
             req.params.id,

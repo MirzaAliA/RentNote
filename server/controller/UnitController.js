@@ -35,6 +35,30 @@ export const saveUnitVehicle = async (req, res) => {
     try {
         const { id } = req.user;
         const { name, brand, plateNumber, year, price, vehicleStatus } = req.body;
+        if (!name) {
+            return sendErrorResponse(res, { message: "Please input a Name" }, 401)
+        }
+
+        if (!brand) {
+            return sendErrorResponse(res, { message: "Please input a Brand" }, 401)
+        }
+
+        if (!plateNumber) {
+            return sendErrorResponse(res, { message: "Please input a Plate Number" }, 401)
+        }
+
+        if (!year) {
+            return sendErrorResponse(res, { message: "Please input a Year" }, 401)
+        }
+
+        if (!price) {
+            return sendErrorResponse(res, { message: "Please input Price" }, 401)
+        }
+
+        if (!vehicleStatus) {
+            return sendErrorResponse(res, { message: "Please input Vehicle Status" }, 401)
+        }
+
         const userId = new mongoose.Types.ObjectId(id);
         const Unit = await UnitSchema.create({
             name,
@@ -66,6 +90,31 @@ export const updateUnitVehicle = async (req, res) => {
             year,
             vehicleStatus
         } = req.body
+        
+        if (!name) {
+            return sendErrorResponse(res, { message: "Please input a Name" }, 401)
+        }
+
+        if (!brand) {
+            return sendErrorResponse(res, { message: "Please input a Brand" }, 401)
+        }
+
+        if (!plateNumber) {
+            return sendErrorResponse(res, { message: "Please input a Plate Number" }, 401)
+        }
+
+        if (!year) {
+            return sendErrorResponse(res, { message: "Please input a Year" }, 401)
+        }
+
+        if (!price) {
+            return sendErrorResponse(res, { message: "Please input Price" }, 401)
+        }
+
+        if (!vehicleStatus) {
+            return sendErrorResponse(res, { message: "Please input Vehicle Status" }, 401)
+        }
+
         const Unit = await UnitSchema.findByIdAndUpdate(
             req.params.id,
             {
